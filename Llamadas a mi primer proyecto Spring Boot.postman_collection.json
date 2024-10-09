@@ -1,0 +1,1162 @@
+{
+	"info": {
+		"_postman_id": "97ff804e-d5fe-4a2d-a8e4-1351965da0a4",
+		"name": "Llamadas a mi primer proyecto Spring Boot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27879457"
+	},
+	"item": [
+		{
+			"name": "Autenticación",
+			"item": [
+				{
+					"name": "Autenticarse como encargado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"token_acceso\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{cliente-id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{cliente-secret}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{usuario_encargado_username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{usuario_encargado_credenciales}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host_keycloak}}/realms/{{reino}}/protocol/openid-connect/token",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"realms",
+								"{{reino}}",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autenticarse como administrador",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"token_acceso\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{cliente-id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{cliente-secret}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{usuario_admin_username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{usuario_admin_credenciales}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host_keycloak}}/realms/{{reino}}/protocol/openid-connect/token",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"realms",
+								"{{reino}}",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Llamadas a mi controlador",
+			"item": [
+				{
+					"name": "Llamada al endpoint de encargados",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_spring_boot}}/api/v1/encargado",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"encargado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Llamada al endpoint de administradores",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_spring_boot}}/api/v1/admin",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Llamada al endpoint combinado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_spring_boot}}/api/v1/combinado",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"combinado"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Llamadas al controlador de usuarios",
+			"item": [
+				{
+					"name": "Listar usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/usuarios",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuario por username",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/usuarios/{{usuario_encargado_username}}",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"usuarios",
+								"{{usuario_encargado_username}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear nuevo usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"usuario-creado-spring-boot\",\n    \"email\": \"acob1001@test.net\",\n    \"firstName\": \"Al\",\n    \"lastName\": \"Cob\",\n    \"password\": \"1234\",\n    \"roles\": [\"ADMINISTRADOR-rol-reino\", \"ENCARGADO-rol-reino\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/usuarios",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar datos usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"usuario-modificado-spring-boot\",\n    \"email\": \"acob0101@test.net\",\n    \"firstName\": \"Al\",\n    \"lastName\": \"Cob\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/usuarios/94af5fa3-9354-4e04-9aa3-b62ed576012d",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"usuarios",
+								"94af5fa3-9354-4e04-9aa3-b62ed576012d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/usuarios/94af5fa3-9354-4e04-9aa3-b62ed576012d",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"usuarios",
+								"94af5fa3-9354-4e04-9aa3-b62ed576012d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Llamadas al controlador de roles",
+			"item": [
+				{
+					"name": "CRUD",
+					"item": [
+						{
+							"name": "A nivel de reino",
+							"item": [
+								{
+									"name": "Listar roles a nivel de reino",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token_acceso}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host_spring_boot}}/api/keycloak/roles/reino",
+											"host": [
+												"{{host_spring_boot}}"
+											],
+											"path": [
+												"api",
+												"keycloak",
+												"roles",
+												"reino"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Crear nuevo rol de reino",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token_acceso}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"nombre\": \"rol-reino-spring-boot\",\n    \"descripcion\": \"Un rol a nivel de reino creado desde una llamada HTTP a la API de Spring Boot\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host_spring_boot}}/api/keycloak/roles/reino",
+											"host": [
+												"{{host_spring_boot}}"
+											],
+											"path": [
+												"api",
+												"keycloak",
+												"roles",
+												"reino"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Modificar datos rol de reino",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token_acceso}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"nombre\": \"rol-reino-spring-boot\",\n    \"descripcion\": \"Un rol a nivel de reino que ha sido modificado desde una llamada HTTP a la API de Spring Boot\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host_spring_boot}}/api/keycloak/roles/reino/rol-reino-spring-boot",
+											"host": [
+												"{{host_spring_boot}}"
+											],
+											"path": [
+												"api",
+												"keycloak",
+												"roles",
+												"reino",
+												"rol-reino-spring-boot"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Eliminar rol de reino",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token_acceso}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{host_spring_boot}}/api/keycloak/roles/reino/rol-reino-spring-boot",
+											"host": [
+												"{{host_spring_boot}}"
+											],
+											"path": [
+												"api",
+												"keycloak",
+												"roles",
+												"reino",
+												"rol-reino-spring-boot"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "A nivel de cliente",
+							"item": [
+								{
+									"name": "Listar roles a nivel de cliente",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token_acceso}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host_spring_boot}}/api/keycloak/roles/cliente/70954380-cca5-4a80-bf78-2cf420f3ce25",
+											"host": [
+												"{{host_spring_boot}}"
+											],
+											"path": [
+												"api",
+												"keycloak",
+												"roles",
+												"cliente",
+												"70954380-cca5-4a80-bf78-2cf420f3ce25"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Crear nuevo rol de cliente",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token_acceso}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"nombre\": \"rol-cliente-spring-boot2\",\n    \"descripcion\": \"Otro rol a nivel de cliente creado desde una llamada HTTP a la API de Spring Boot\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host_spring_boot}}/api/keycloak/roles/cliente/70954380-cca5-4a80-bf78-2cf420f3ce25",
+											"host": [
+												"{{host_spring_boot}}"
+											],
+											"path": [
+												"api",
+												"keycloak",
+												"roles",
+												"cliente",
+												"70954380-cca5-4a80-bf78-2cf420f3ce25"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Modificar datos rol de cliente",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token_acceso}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"nombre\": \"rol-cliente-spring-boot2\",\n    \"descripcion\": \"Otro rol a nivel de cliente modificado desde una llamada HTTP a la API de Spring Boot\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host_spring_boot}}/api/keycloak/roles/rol-cliente-spring-boot2/cliente/70954380-cca5-4a80-bf78-2cf420f3ce25",
+											"host": [
+												"{{host_spring_boot}}"
+											],
+											"path": [
+												"api",
+												"keycloak",
+												"roles",
+												"rol-cliente-spring-boot2",
+												"cliente",
+												"70954380-cca5-4a80-bf78-2cf420f3ce25"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Eliminar rol de cliente",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token_acceso}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{host_spring_boot}}/api/keycloak/roles/rol-cliente-spring-boot2/cliente/70954380-cca5-4a80-bf78-2cf420f3ce25",
+											"host": [
+												"{{host_spring_boot}}"
+											],
+											"path": [
+												"api",
+												"keycloak",
+												"roles",
+												"rol-cliente-spring-boot2",
+												"cliente",
+												"70954380-cca5-4a80-bf78-2cf420f3ce25"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Listar roles",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_spring_boot}}/api/keycloak/roles",
+									"host": [
+										"{{host_spring_boot}}"
+									],
+									"path": [
+										"api",
+										"keycloak",
+										"roles"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Asignaciones a usuarios",
+					"item": [
+						{
+							"name": "Asignar rol de reino a usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{host_spring_boot}}/api/keycloak/roles/reino/rol-reino-spring-boot/usuario/a38d47df-a625-4b0b-aae0-940dbfaf04be",
+									"host": [
+										"{{host_spring_boot}}"
+									],
+									"path": [
+										"api",
+										"keycloak",
+										"roles",
+										"reino",
+										"rol-reino-spring-boot",
+										"usuario",
+										"a38d47df-a625-4b0b-aae0-940dbfaf04be"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Desasignar rol de reino a usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host_spring_boot}}/api/keycloak/roles/reino/rol-reino-spring-boot/usuario/a38d47df-a625-4b0b-aae0-940dbfaf04be",
+									"host": [
+										"{{host_spring_boot}}"
+									],
+									"path": [
+										"api",
+										"keycloak",
+										"roles",
+										"reino",
+										"rol-reino-spring-boot",
+										"usuario",
+										"a38d47df-a625-4b0b-aae0-940dbfaf04be"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Asignar rol de cliente a usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{host_spring_boot}}/api/keycloak/roles/rol-cliente-spring-boot/cliente/70954380-cca5-4a80-bf78-2cf420f3ce25/usuario/a38d47df-a625-4b0b-aae0-940dbfaf04be",
+									"host": [
+										"{{host_spring_boot}}"
+									],
+									"path": [
+										"api",
+										"keycloak",
+										"roles",
+										"rol-cliente-spring-boot",
+										"cliente",
+										"70954380-cca5-4a80-bf78-2cf420f3ce25",
+										"usuario",
+										"a38d47df-a625-4b0b-aae0-940dbfaf04be"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Desasignar rol de cliente a usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host_spring_boot}}/api/keycloak/roles/rol-cliente-spring-boot/cliente/70954380-cca5-4a80-bf78-2cf420f3ce25/usuario/a38d47df-a625-4b0b-aae0-940dbfaf04be",
+									"host": [
+										"{{host_spring_boot}}"
+									],
+									"path": [
+										"api",
+										"keycloak",
+										"roles",
+										"rol-cliente-spring-boot",
+										"cliente",
+										"70954380-cca5-4a80-bf78-2cf420f3ce25",
+										"usuario",
+										"a38d47df-a625-4b0b-aae0-940dbfaf04be"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Llamadas al controlador de clientes",
+			"item": [
+				{
+					"name": "Listar clientes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/clientes",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar cliente por UUID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/clientes/70954380-cca5-4a80-bf78-2cf420f3ce25",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"clientes",
+								"70954380-cca5-4a80-bf78-2cf420f3ce25"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear nuevo cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idCliente\": \"mi-cliente-spring boot\",\n    \"nombre\": \"Mi cliente Spring Boot\",\n    \"descripcion\": \"Nuevo cliente creado mediante llamada HTTP a la API REST de mi proyecto personal Spring Boot\",\n    \"urlRaiz\": \"\",\n    \"urlAdmin\": \"\",\n    \"urlBase\": \"\",\n    \"estaActivo\": true,\n    \"clientSecret\": \"AaAaAaAaA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/clientes",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar datos cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idCliente\": \"mi-cliente-spring boot\",\n    \"nombre\": \"Mi cliente Spring Boot\",\n    \"descripcion\": \"Cliente modificado mediante llamada HTTP a la API REST de mi proyecto personal Spring Boot\",\n    \"urlRaiz\": \"\",\n    \"urlAdmin\": \"\",\n    \"urlBase\": \"\",\n    \"estaActivo\": true,\n    \"clientSecret\": \"AaAaAaAaA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/clientes/f1520ecb-d5c2-49d4-89b3-62d2a8537740",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"clientes",
+								"f1520ecb-d5c2-49d4-89b3-62d2a8537740"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/clientes/f1520ecb-d5c2-49d4-89b3-62d2a8537740",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"clientes",
+								"f1520ecb-d5c2-49d4-89b3-62d2a8537740"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Llamadas al controlador de grupos",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_spring_boot}}/api/keycloak/grupos",
+							"host": [
+								"{{host_spring_boot}}"
+							],
+							"path": [
+								"api",
+								"keycloak",
+								"grupos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token_acceso",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "host_spring_boot",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "host_keycloak",
+			"value": "http://localhost:8081",
+			"type": "string"
+		},
+		{
+			"key": "reino",
+			"value": "mi-reino-de-pruebas",
+			"type": "string"
+		},
+		{
+			"key": "cliente-id",
+			"value": "mi-aplicacion-cliente",
+			"type": "string"
+		},
+		{
+			"key": "cliente-secret",
+			"value": "rxjoT6QuoliAm1yh9fvh7f8KDdBfurpp",
+			"type": "string"
+		},
+		{
+			"key": "usuario_admin_username",
+			"value": "acob0001",
+			"type": "string"
+		},
+		{
+			"key": "usuario_admin_credenciales",
+			"value": "11111",
+			"type": "string"
+		},
+		{
+			"key": "usuario_encargado_username",
+			"value": "acob0002",
+			"type": "string"
+		},
+		{
+			"key": "usuario_encargado_credenciales",
+			"value": "22222",
+			"type": "string"
+		}
+	]
+}
