@@ -1,5 +1,5 @@
 # Mi primer proyecto con Keycloak
-Proyecto didáctico de iniciación al gestor de identidades Keycloak realizado por Álvaro Cobano.
+Proyecto didáctico de iniciación al gestor de identidades Keycloak realizado por Joaquin Castro.
 
 
 # Índice de contenidos:
